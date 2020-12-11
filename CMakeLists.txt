@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   rviz
+  # Other dependecies
+  std_msgs
 )
 
 catkin_package(
