@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   rviz
+  pluginlib
   # Other dependecies
   std_msgs
 )
@@ -25,7 +26,6 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-
 ## This setting causes Qt's "MOC" generation to happen automatically.
 set(CMAKE_AUTOMOC ON)
 
@@ -42,6 +42,10 @@ else()
   ## make target_link_libraries(${QT_LIBRARIES}) pull in all required dependencies
   set(QT_LIBRARIES Qt5::Widgets)
 endif()
+
+# Avoid keyword definition to avaid conflicts with boost or xapian etc
+# e.g. http://muddyazian.blogspot.de/2012/04/getting-qt-app-working-with-boost-using.html
+add_definitions(-DQT_NO_KEYWORDS)
 
 # Define source file
 set(${PROJECT_NAME}_SRCS
@@ -78,10 +82,5 @@ add_library(simple_panel
 
 target_link_libraries(simple_panel
   ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
 )
-
-if(rviz_QT_VERSION VERSION_LESS "5")
-    target_link_libraries(simple_panel ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
-else()
-    target_link_libraries(simple_panel Qt5::Widgets)
-endif()
