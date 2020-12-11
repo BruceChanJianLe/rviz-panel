@@ -28,6 +28,19 @@ catkin_create_pkg rviz-panel roscpp rospy pluginlib rviz std_msgs
 ```
 Please choose carefully your packages, here std_msgs is no needed to actually build the panel.  
 
+### Folder-Structure
+```bash
+├── CMakeLists.txt
+├── include
+│   └── rviz-panel
+│       └── rviz_panel.hpp  # Header File
+├── package.xml
+├── resource
+│   └── simple_panel.ui     # UI File
+├── rviz_plugin.xml         # Declare plugin
+└── src
+    └── rviz_panel.cpp      # Source File
+```
 
 ## Reference
 
