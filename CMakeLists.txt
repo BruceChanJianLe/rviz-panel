@@ -23,7 +23,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR} # To include UI header file
 )
 
 ## This setting causes Qt's "MOC" generation to happen automatically.
