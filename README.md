@@ -12,8 +12,8 @@ Note that plugin.xml class name should be unique for ROS to locate it. Otherwise
 
 1. [Create Package](###Create-Package)
 1. [Create Necessary Folders and Files](###Folder-Structure)
-1. [Create UI file with Qt Designer]
-1. [Update package.xml (update export tag)]
+1. [Create UI file with Qt Designer](https://github.com/BruceChanJianLe/ros-rqt-plugin#ui-file)
+1. [Update package.xml (update export tag)](###Packagexml)
 1. [Update CMakeLists.txt]
 1. [Compile to create header file from UI file (catkin_make)]
 1. [Create and update header file (inside of include/<package_name>)]
@@ -40,6 +40,49 @@ Please choose carefully your packages, here std_msgs is no needed to actually bu
 ├── rviz_plugin.xml         # Declare plugin
 └── src
     └── rviz_panel.cpp      # Source File
+```
+
+### Package.xml
+Do not forget to add export tag correctly.
+```xml
+<?xml version="1.0"?>
+<package format="2">
+  <name>rviz-panel</name>
+  <version>0.0.0</version>
+  <description>The rviz-panel package</description>
+
+  <author email="jianle001@e.ntu.edu.sg">Bruce Chan Jian Le</author>
+  <maintainer email="jianle001@e.ntu.edu.sg">Bruce Chan Jian Le</maintainer>
+  <license>MIT</license>
+  <url type="website">https://github.com/BruceChanJianLe/rviz-panel</url>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>rviz</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>rviz</build_export_depend>
+  <build_export_depend>pluginlib</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+
+  <export>
+    <rviz plugin="${prefix}/rviz_plugin.xml"/>
+  </export>
+
+</package>
 ```
 
 ## Reference
