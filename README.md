@@ -16,8 +16,8 @@ Note that plugin.xml class name should be unique for ROS to locate it. Otherwise
 1. [Update package.xml (update export tag)](###Packagexml)
 1. [Update CMakeLists.txt](###CMake)
 1. [Compile to create header file from UI file (catkin_make)](###UI-Header)
-1. [Create and update header file (inside of include/<package_name>)]
-1. [Create and update source file (inside of src)]
+1. [Create and update header file (inside of include/<package_name>)](###Header-File)
+1. [Create and update source file (inside of src)](###Source-File)
 1. [Compile (catkin_make)]
 
 ### Create Package
@@ -175,6 +175,18 @@ target_link_libraries(simple_panel
 )
 ```
 
+### UI Header
+
+In order to generate the header file from the UI file, you will need to use the add_library function to invoke CMakeLists.txt to create the header file. The header file will be inside of the build directory. To use the header file in vscode you may have to use `#include <package_name/ui_header.h` but to compile it, you will need to change it to `#include <ui_header.h>`.
+
+To include the ui header file, you need to include this cmake binary directory which is the build file.
+```cmake
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_BINARY_DIR}       # To include UI header file
+)
+``` 
 
 ## Reference
 
