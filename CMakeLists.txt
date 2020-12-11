@@ -22,6 +22,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 
@@ -42,6 +43,15 @@ else()
   set(QT_LIBRARIES Qt5::Widgets)
 endif()
 
+# Define source file
+set(${PROJECT_NAME}_SRCS
+  src/rviz_panel.cpp
+)
+
+# Define header file
+set(${PROJECT_NAME}_HDRS
+  include/${PROJECT_NAME}/rviz_panel.hpp
+)
 
 # Define ui file
 set(${PROJECT_NAME}_UIS
@@ -52,17 +62,26 @@ set(${PROJECT_NAME}_UIS
 if(rviz_QT_VERSION VERSION_LESS "5")
     message(STATUS "Generate header for ui with rviz_QT_VERSION: ${rviz_QT_VERSION}")
     qt4_wrap_ui(${PROJECT_NAME}_UIS_H ${${PROJECT_NAME}_UIS})
+    qt4_wrap_cpp(${PROJECT_NAME}_MOCS ${${PROJECT_NAME}_HDRS})
 else()
     message(STATUS "Generate header for ui with rviz_QT_VERSION: ${rviz_QT_VERSION}")
     qt5_wrap_ui(${PROJECT_NAME}_UIS_H ${${PROJECT_NAME}_UIS})
+    qt5_wrap_cpp(${PROJECT_NAME}_MOCS ${${PROJECT_NAME}_HDRS})
 endif()
-
 
 ## Add library is needed in order to generate the header file from ui file.
 add_library(simple_panel
+  ${${PROJECT_NAME}_SRCS}
   ${${PROJECT_NAME}_UIS_H}
+  ${${PROJECT_NAME}_MOCS} 
 )
 
 target_link_libraries(simple_panel
   ${catkin_LIBRARIES}
 )
+
+if(rviz_QT_VERSION VERSION_LESS "5")
+    target_link_libraries(simple_panel ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+else()
+    target_link_libraries(simple_panel Qt5::Widgets)
+endif()
