@@ -29,5 +29,7 @@
 
 
   <export>
+    <rviz plugin="${prefix}/rviz_plugin.xml"/>
   </export>
+
 </package>
