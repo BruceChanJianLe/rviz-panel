@@ -12,12 +12,55 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES rviz-panel
-#  CATKIN_DEPENDS roscpp rospy rviz
-#  DEPENDS system_lib
+  # LIBRARIES rviz-panel
+  # CATKIN_DEPENDS roscpp rospy rviz
+  # DEPENDS system_lib
 )
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+)
+
+
+## This setting causes Qt's "MOC" generation to happen automatically.
+set(CMAKE_AUTOMOC ON)
+
+## This plugin includes Qt widgets, so we must include Qt.
+## We'll use the version that rviz used so they are compatible.
+if(rviz_QT_VERSION VERSION_LESS "5")
+  message(STATUS "Using Qt4 based on the rviz_QT_VERSION: ${rviz_QT_VERSION}")
+  find_package(Qt4 ${rviz_QT_VERSION} EXACT REQUIRED QtCore QtGui)
+  ## pull in all required include dirs, define QT_LIBRARIES, etc.
+  include(${QT_USE_FILE})
+else()
+  message(STATUS "Using Qt5 based on the rviz_QT_VERSION: ${rviz_QT_VERSION}")
+  find_package(Qt5 ${rviz_QT_VERSION} EXACT REQUIRED Core Widgets)
+  ## make target_link_libraries(${QT_LIBRARIES}) pull in all required dependencies
+  set(QT_LIBRARIES Qt5::Widgets)
+endif()
+
+
+# Define ui file
+set(${PROJECT_NAME}_UIS
+  resource/simple_panel.ui
+)
+
+# Create header from ui file (uic)
+if(rviz_QT_VERSION VERSION_LESS "5")
+    message(STATUS "Generate header for ui with rviz_QT_VERSION: ${rviz_QT_VERSION}")
+    qt4_wrap_ui(${PROJECT_NAME}_UIS_H ${${PROJECT_NAME}_UIS})
+else()
+    message(STATUS "Generate header for ui with rviz_QT_VERSION: ${rviz_QT_VERSION}")
+    qt5_wrap_ui(${PROJECT_NAME}_UIS_H ${${PROJECT_NAME}_UIS})
+endif()
+
+
+## Add library is needed in order to generate the header file from ui file.
+add_library(simple_panel
+  ${${PROJECT_NAME}_UIS_H}
+)
+
+target_link_libraries(simple_panel
+  ${catkin_LIBRARIES}
 )
