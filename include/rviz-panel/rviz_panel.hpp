@@ -58,7 +58,7 @@ namespace rviz_panel
         /**
          *  Here we declare some internal slots.
          */
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
             void button_one();
             void button_two();
@@ -67,7 +67,8 @@ namespace rviz_panel
          *  Finally, we close up with protected member variables
          */
         protected:
-            Ui::two_button ui_;
+            // UI pointer
+            std::shared_ptr<Ui::two_button> ui_;
             // ROS declaration
             ros::NodeHandle nh_;
             ros::Publisher button_1_pub_;
