@@ -260,8 +260,8 @@ namespace rviz_panel
          *  Finally, we close up with protected member variables
          */
         protected:
-            Ui::two_button ui_;
-            QWidget * widget_;
+            // UI pointer
+            std::shared_ptr<Ui::two_button> ui_;
             // ROS declaration
             ros::NodeHandle nh_;
             ros::Publisher button_1_pub_;
