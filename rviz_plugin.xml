@@ -1,6 +1,6 @@
 <library path="lib/libsimple_panel">
 
-  <class name="rviz_panel/simple_panel" type="rviz_panel::TeleopPanel" base_class_type="rviz::Panel">
+  <class type="rviz_panel::simplePanel" base_class_type="rviz::Panel">
     <description>
       A simple panel widget with two buttons.
     </description>
