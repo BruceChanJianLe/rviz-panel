@@ -283,19 +283,11 @@ PLUGINLIB_EXPORT_CLASS(rviz_panel::simplePanel, rviz::Panel)
 namespace rviz_panel
 {
     simplePanel::simplePanel(QWidget * parent)
-    :   rviz::Panel(parent)
+    :   rviz::Panel(parent),
+        ui_(std::make_shared<Ui::two_button>())
     {
-        // Access standalone command line arguments
-        // QStringList argc = context.argv();
-
-        // Create QWidget
-        // widget_ = new QWidget();
-
         // Extend the widget with all attributes and children from UI file
-        ui_.setupUi(this);
-
-        // Add widget to user interface
-        // context.addWidget(widget_);
+        ui_->setupUi(this);
 
         // Define ROS publisher
         button_1_pub_ = nh_.advertise<std_msgs::Bool>("button_1_topic", 1);
@@ -304,8 +296,8 @@ namespace rviz_panel
         // Declare ROS msg_
         msg_.data = true;
 
-        connect(ui_.pushButton_1, SIGNAL(clicked()), this, SLOT(button_one()));
-        connect(ui_.pushButton_2, SIGNAL(clicked()), this, SLOT(button_two()));
+        connect(ui_->pushButton_1, SIGNAL(clicked()), this, SLOT(button_one()));
+        connect(ui_->pushButton_2, SIGNAL(clicked()), this, SLOT(button_two()));
     }
 
 
@@ -340,8 +332,6 @@ namespace rviz_panel
     {
         rviz::Panel::load(config);
     }
-
-
 } // namespace rviz_panel
 ```
 
