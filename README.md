@@ -9,6 +9,8 @@ For vscode to find the ui header file, add this line to `c_cpp_properties.json` 
 "${workspaceFolder}/../../build/${workspaceFolderBasename}/"
 ```
 
+To search for related qt `SIGNAL` you may look at this [page](https://doc.qt.io/qt-5/qlineedit.html) for more information. They are under the SIGNAL section.
+
 ![image](resource/img.png)
 
 ## Steps
