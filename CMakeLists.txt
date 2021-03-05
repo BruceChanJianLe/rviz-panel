@@ -43,7 +43,8 @@ else()
   set(QT_LIBRARIES Qt5::Widgets)
 endif()
 
-# Avoid keyword definition to avaid conflicts with boost or xapian etc
+# I prefer the Qt signals and slots to avoid defining "emit", "slots",
+# etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here
 # e.g. http://muddyazian.blogspot.de/2012/04/getting-qt-app-working-with-boost-using.html
 add_definitions(-DQT_NO_KEYWORDS)
 
