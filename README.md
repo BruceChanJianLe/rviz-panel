@@ -342,6 +342,14 @@ namespace rviz_panel
 } // namespace rviz_panel
 ```
 
+## ERROR
+
+This error occurs because you did not follow exactly the function declaration. To resolve it simply add an `int` in the `stateChanged()` function like so `stateChanged(int)`.
+
+```bash
+QObject::connect: No such signal QCheckBox::stateChanged()
+```
+
 ## Reference
 
 - RViz Panel Example (repository) [link](https://github.com/ros-visualization/visualization_tutorials/tree/8284284b3894a7c7c9298e2018f040894daa4779/rviz_plugin_tutorials)
