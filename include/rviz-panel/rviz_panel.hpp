@@ -32,6 +32,9 @@ namespace rviz_panel
         Q_OBJECT
 
         public:
+            #ifdef UNIT_TEST
+                friend class testClass;
+            #endif
             /**
              *  QWidget subclass constructors usually take a parent widget
              *  parameter (which usually defaults to 0).  At the same time,
