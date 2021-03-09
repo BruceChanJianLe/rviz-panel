@@ -102,7 +102,7 @@ if(CATKIN_ENABLE_TESTING)
     ${${PROJECT_NAME}_MOCS} 
   )
 
-  if(TARGET ${PROJECT_NAME}_test)
+  if(TARGET rviz_panel_test)
     target_compile_definitions(rviz_panel_test
       PRIVATE UNIT_TEST
     )
