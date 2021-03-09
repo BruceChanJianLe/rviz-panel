@@ -28,14 +28,14 @@ namespace rviz_panel
     void simplePanel::button_one()
     {
         ROS_INFO_STREAM("Button one pressed.");
-        button_1_pub_.publish(msg_);
+        this->button_1_pub_.publish(this->msg_);
     }
 
 
     void simplePanel::button_two()
     {
         ROS_INFO_STREAM("Button two pressed.");
-        button_2_pub_.publish(msg_);
+        this->button_2_pub_.publish(this->msg_);
     }
 
 
