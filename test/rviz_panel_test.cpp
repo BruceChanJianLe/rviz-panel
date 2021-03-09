@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 #include "rviz-panel/rviz_panel.hpp"
+#include <ros/callback_queue.h>
 
 
 namespace rviz_panel
 {
-    class testClass : public ::testing::Test, simplePanel
+    class testClass : public ::testing::Test, public simplePanel
     {
         friend class msgDataTestClass;
         public:
@@ -39,16 +40,15 @@ namespace rviz_panel
     struct message_data
     {
         bool data;
-        bool success;
     };
 
 
-    class msgDataTestClass : testClass, ::testing::WithParamInterface<message_data>
+    class msgDataTestClass : public testClass, public ::testing::WithParamInterface<rviz_panel::message_data>
     {
         public:
             msgDataTestClass()
             {
-                this->msg_return_value_ = GetParam().data;
+                ;
             }
             ~msgDataTestClass()
             {
@@ -87,16 +87,23 @@ namespace rviz_panel
 
     TEST_P(msgDataTestClass, buttonTest)
     {
-        // Pass struct message_data to local data
-        auto as = GetParam();
-
-        // Set message value to true
-        this->msg_.data = as.data;
+        // Set message value from getParam()
+        this->msg_.data = GetParam().data;
 
         SLOT(button_one());
 
-        EXPECT_EQ(as.data, this->msg_return_value_);
+        EXPECT_EQ(GetParam().data, this->msg_return_value_);
     }
+
+
+    INSTANTIATE_TEST_CASE_P(
+        Default,
+        msgDataTestClass,
+        ::testing::Values(
+            message_data{true},
+            message_data{false}
+        )
+    );
 
 } // namespace rviz_panel
 
