@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "rviz-panel/rviz_panel.hpp"
 #include <ros/callback_queue.h>
+#include <thread>
 
 
 namespace rviz_panel
@@ -55,6 +56,9 @@ namespace rviz_panel
                 ;
             }
 
+            ros::Subscriber button_1_sub_;
+            ros::Subscriber button_2_sub_;
+
             // Sets up the test fixture.
             virtual void SetUp() override
             {
@@ -62,8 +66,8 @@ namespace rviz_panel
                 nh_ = ros::NodeHandle();
 
                 // Setup publishers and subscribers
-                button_1_pub_ = nh_.advertise<std_msgs::Bool>("button_1_topic", 1);
-                button_2_pub_ = nh_.advertise<std_msgs::Bool>("button_2_topic", 1);
+                button_1_pub_ = nh_.advertise<std_msgs::Bool>("button_1_topic", 1, true);
+                button_2_pub_ = nh_.advertise<std_msgs::Bool>("button_2_topic", 1, true);
                 
                 auto callback = [this](const std_msgs::Bool::ConstPtr & msg)
                 {
@@ -71,8 +75,8 @@ namespace rviz_panel
                     this->msg_return_value_ = msg->data;
                 };
 
-                ros::Subscriber button_1_sub_ = nh_.subscribe<std_msgs::Bool>("button_1_topic", 1, callback);
-                ros::Subscriber button_2_sub_ = nh_.subscribe<std_msgs::Bool>("button_2_topic", 1, callback);
+                button_1_sub_ = nh_.subscribe<std_msgs::Bool>("button_1_topic", 1, callback);
+                button_2_sub_ = nh_.subscribe<std_msgs::Bool>("button_2_topic", 1, callback);
             }
 
             // Tears down the test fixture.
@@ -90,7 +94,24 @@ namespace rviz_panel
         // Set message value from getParam()
         this->msg_.data = GetParam().data;
 
-        SLOT(button_one());
+        // Call QT slot function like this (but in this example it does not work)
+        // Hence publish myself
+        SLOT(this->button_one());
+        button_1_pub_.publish(this->msg_); // publishing myself instead
+
+        ros::Rate r(1);
+        while (nh_.ok())
+        {
+            if(this->msg_return_value_ != this->msg_.data)
+            {
+                ros::spinOnce();
+                r.sleep();
+            }
+            else
+            {
+                break;
+            }
+        }
 
         EXPECT_EQ(GetParam().data, this->msg_return_value_);
     }
