@@ -85,3 +85,31 @@ target_link_libraries(simple_panel
   ${catkin_LIBRARIES}
   ${QT_LIBRARIES}
 )
+
+##########
+## Test ##
+##########
+
+# http://wiki.ros.org/gtest
+## Add gtest based cpp test target and link libraries
+if(CATKIN_ENABLE_TESTING)
+
+  # catkin_add_gtest(plugin_test test/plugin_test.cpp)
+
+  add_rostest_gtest(plugin_test
+    test/${PROJECT_NAME}_test.test
+    test/${PROJECT_NAME}_test.cpp
+
+    ${${PROJECT_NAME}_SRCS}
+    ${${PROJECT_NAME}_UIS_H}
+    ${${PROJECT_NAME}_MOCS} 
+  )
+
+  if(TARGET plugin_test)
+    target_link_libraries(${PROJECT_NAME}_test
+     ${catkin_LIBRARIES}
+     ${QT_LIBRARIES}        # Link QT libraries
+    )
+  endif()
+
+endif()
