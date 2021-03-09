@@ -106,6 +106,9 @@ if(CATKIN_ENABLE_TESTING)
   )
 
   if(TARGET plugin_test)
+    target_compile_options(${PROJECT_NAME}_test
+      PRIVATE UNIT_TEST
+    )
     target_link_libraries(${PROJECT_NAME}_test
      ${catkin_LIBRARIES}
      ${QT_LIBRARIES}        # Link QT libraries
