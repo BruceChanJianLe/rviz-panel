@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <test test-name="rviz_panel_test" pkg="rviz-panel" type="rviz_panel_test"/>
+
+</launch>
