@@ -4,8 +4,11 @@
 
 namespace rviz_panel
 {
-    class testClass : public ::testing::Test, public simplePanel
+    class testClass : public ::testing::Test, simplePanel
     {
+        friend class msgDataTestClass;
+        public:
+            bool msg_return_value_;
         public:
             testClass()
             {
@@ -16,15 +19,87 @@ namespace rviz_panel
                 ;
             }
 
-            FRIEND_TEST(testClass, buttonTest);
+            // Sets up the test fixture.
+            virtual void SetUp() override
+            {
+                ;
+            }
+
+            // Tears down the test fixture.
+            virtual void TearDown() override
+            {
+                ;
+            }
     };
+
+    /**
+     * @brief Setup parameterize data structure
+     * 
+     */
+    struct message_data
+    {
+        bool data;
+        bool success;
+    };
+
+
+    class msgDataTestClass : testClass, ::testing::WithParamInterface<message_data>
+    {
+        public:
+            msgDataTestClass()
+            {
+                this->msg_return_value_ = GetParam().data;
+            }
+            ~msgDataTestClass()
+            {
+                ;
+            }
+
+            // Sets up the test fixture.
+            virtual void SetUp() override
+            {
+                // Setup ROS node handle
+                nh_ = ros::NodeHandle();
+
+                // Setup publishers and subscribers
+                button_1_pub_ = nh_.advertise<std_msgs::Bool>("button_1_topic", 1);
+                button_2_pub_ = nh_.advertise<std_msgs::Bool>("button_2_topic", 1);
+                
+                auto callback = [this](const std_msgs::Bool::ConstPtr & msg)
+                {
+                    // Set receive value to return value
+                    this->msg_return_value_ = msg->data;
+                };
+
+                ros::Subscriber button_1_sub_ = nh_.subscribe<std_msgs::Bool>("button_1_topic", 1, callback);
+                ros::Subscriber button_2_sub_ = nh_.subscribe<std_msgs::Bool>("button_2_topic", 1, callback);
+            }
+
+            // Tears down the test fixture.
+            virtual void TearDown() override
+            {
+                ;
+            }
+
+            FRIEND_TEST(msgDataTestClass, buttonTest);
+    };
+
+
+    TEST_P(msgDataTestClass, buttonTest)
+    {
+        // Pass struct message_data to local data
+        auto as = GetParam();
+
+        // Set message value to true
+        this->msg_.data = as.data;
+
+        SLOT(button_one());
+
+        EXPECT_EQ(as.data, this->msg_return_value_);
+    }
 
 } // namespace rviz_panel
 
-TEST_F(rviz_panel::testClass, buttonTest)
-{
-    ;
-}
 
 int main(int argc, char ** argv)
 {
