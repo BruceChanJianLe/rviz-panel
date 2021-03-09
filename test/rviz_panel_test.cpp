@@ -4,8 +4,27 @@
 
 namespace rviz_panel
 {
-    
+    class testClass : public ::testing::Test, public simplePanel
+    {
+        public:
+            testClass()
+            {
+                ;
+            }
+            ~testClass()
+            {
+                ;
+            }
+
+            FRIEND_TEST(testClass, buttonTest);
+    };
+
 } // namespace rviz_panel
+
+TEST_F(rviz_panel::testClass, buttonTest)
+{
+    ;
+}
 
 int main(int argc, char ** argv)
 {
