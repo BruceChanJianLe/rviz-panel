@@ -1,5 +1,7 @@
 # RViz Panel
 
+YOU MAY ALSO BE INTERESTED IN [RVIZ2-PANEL](https://github.com/BruceChanJianLe/rviz2-panel) FOR ROS2!
+
 This repository demonstrates the method for writing a rviz dockable panel.
 
 Note that to generate the `ui*.h` file you will need to use the `add_library` or `add_executable` function for it to appear.
