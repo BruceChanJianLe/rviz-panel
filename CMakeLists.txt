@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   pluginlib
   # Other dependecies
   std_msgs
+  rostest
 )
 
 catkin_package(
