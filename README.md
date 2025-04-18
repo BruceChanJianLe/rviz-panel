@@ -10,20 +10,24 @@ This repository demonstrates the method for writing a rviz dockable panel.
 
 Note that plugin.xml class name should be unique for ROS to locate it. Otherwise, only the first that registered is found.
 
-1. [Create Package](###Create-Package)
-1. [Create Necessary Folders and Files](###Folder-Structure)
+1. [Create Package](#create-package)
+1. [Create Necessary Folders and Files](#folder-structure)
 1. [Create UI file with Qt Designer](https://github.com/BruceChanJianLe/ros-rqt-plugin#ui-file)
-1. [Update package.xml (update export tag)](###Packagexml)
-1. [Update CMakeLists.txt](###CMake)
-1. [Compile to create header file from UI file (catkin_make)](###UI-Header)
-1. [Create and update header file (inside of include/<package_name>)](###Header-File)
-1. [Create and update source file (inside of src)](###Source-File)
-1. [Compile (catkin_make)]
+1. [Update package.xml (update export tag)](#packagexml)
+1. [Update CMakeLists.txt](#cmake)
+1. [Compile to create header file from UI file (catkin_make)](#ui-header)
+1. [Create and update header file (inside of include/<package_name>)](#header-file)
+1. [Create and update source file (inside of src)](#source-file)
+1. [Compile](#Compile)
 
 ### Create Package
 
-Create your personal ROS RViz panel/plugin with the following command:
+Create your personal ROS RViz panel/plugin with the following command:  
 ```bash
+# At your home directory
+cd
+mkdir catkin_ws/src
+cd catkin_ws/src
 catkin_create_pkg rviz-panel roscpp rospy pluginlib rviz std_msgs
 ```
 Please choose your packages carefully, here std_msgs is actually not needed to build the panel.
@@ -334,6 +338,21 @@ namespace rviz_panel
         rviz::Panel::load(config);
     }
 } // namespace rviz_panel
+```
+
+## Compile
+
+Finally, once we have all the necessary files, we can run `catkin_make` to compile the package.
+```bash
+cd ~/catkin_ws
+catkin_make
+```
+
+Now you can run it! Of course, after sourcing the workspace.  
+```bash
+cd ~/catkin_ws
+source devel/setup.bash
+roslaunch rviz-panel start.launch
 ```
 
 ## ERROR and NOTES
