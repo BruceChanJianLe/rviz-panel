@@ -1,17 +1,8 @@
 # RViz Panel
 
-YOU MAY ALSO BE INTERESTED IN [RVIZ2-PANEL](https://github.com/BruceChanJianLe/rviz2-panel) FOR ROS2!
+> YOU MAY ALSO BE INTERESTED IN [RVIZ2-PANEL](https://github.com/BruceChanJianLe/rviz2-panel) FOR ROS2!
 
 This repository demonstrates the method for writing a rviz dockable panel.
-
-Note that to generate the `ui*.h` file you will need to use the `add_library` or `add_executable` function for it to appear.
-
-For vscode to find the ui header file, add this line to `c_cpp_properties.json` includePath.  
-```json
-"${workspaceFolder}/../../build/${workspaceFolderBasename}/"
-```
-
-To search for related qt `SIGNAL` you may look at this [page](https://doc.qt.io/qt-5/qlineedit.html) for more information. They are under the SIGNAL section.
 
 ![image](resource/img.png)
 
@@ -35,7 +26,8 @@ Create your personal ROS RViz panel/plugin with the following command:
 ```bash
 catkin_create_pkg rviz-panel roscpp rospy pluginlib rviz std_msgs
 ```
-Please choose carefully your packages, here std_msgs is no needed to actually build the panel.  
+Please choose your packages carefully, here std_msgs is actually not needed to build the panel.
+But it is required to publish the bool message to demonstrate that the button as been clicked.  
 
 ### Folder-Structure
 ```bash
@@ -344,13 +336,26 @@ namespace rviz_panel
 } // namespace rviz_panel
 ```
 
-## ERROR
+## ERROR and NOTES
 
+### ERROR1
 This error occurs because you did not follow exactly the function declaration. To resolve it simply add an `int` in the `stateChanged()` function like so `stateChanged(int)`.
 
 ```bash
 QObject::connect: No such signal QCheckBox::stateChanged()
 ```
+
+### NOTE1
+Note that to generate the `ui*.h` file you will need to use the `add_library` or `add_executable` function for it to appear.
+
+### NOTE2
+For vscode to find the ui header file, add this line to `c_cpp_properties.json` includePath.  
+```json
+"${workspaceFolder}/../../build/${workspaceFolderBasename}/"
+```
+
+### NOTE3
+To search for related qt `SIGNAL` you may look at this [page](https://doc.qt.io/qt-5/qlineedit.html) for more information. They are under the SIGNAL section.
 
 ## Reference
 
